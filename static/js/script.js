@@ -4,24 +4,78 @@ let tasks = [];
 
 let currentFilter = "all";
 
+let editingTaskId = null;
+
+let deletingTaskId = null;
+
 
 /* DOM elements */
 
 const taskInput = document.getElementById("task-input");
+
 const taskDate = document.getElementById("task-date");
+
 const taskPriority = document.getElementById("task-priority");
 
-const addTaskButton = document.getElementById("add-task-button");
+const addTaskButton =
+    document.getElementById("add-task-button");
 
-const searchInput = document.getElementById("search-input");
+const searchInput =
+    document.getElementById("search-input");
 
-const taskList = document.getElementById("task-list");
+const taskList =
+    document.getElementById("task-list");
 
-const filterButtons = document.querySelectorAll(".filter-button");
+const filterButtons =
+    document.querySelectorAll(".filter-button");
 
-const totalCount = document.getElementById("total-count");
-const pendingCount = document.getElementById("pending-count");
-const completedCount = document.getElementById("completed-count");
+const totalCount =
+    document.getElementById("total-count");
+
+const pendingCount =
+    document.getElementById("pending-count");
+
+const completedCount =
+    document.getElementById("completed-count");
+
+const taskSummary =
+    document.getElementById("task-summary");
+
+
+/* Edit modal elements */
+
+const editModal =
+    document.getElementById("edit-modal");
+
+const editTaskInput =
+    document.getElementById("edit-task-input");
+
+const editTaskDate =
+    document.getElementById("edit-task-date");
+
+const editTaskPriority =
+    document.getElementById("edit-task-priority");
+
+const saveEditButton =
+    document.getElementById("save-edit-button");
+
+const cancelEditButton =
+    document.getElementById("cancel-edit-button");
+
+const closeEditButton =
+    document.getElementById("close-edit-button");
+
+
+/* Delete modal elements */
+
+const deleteModal =
+    document.getElementById("delete-modal");
+
+const cancelDeleteButton =
+    document.getElementById("cancel-delete-button");
+
+const confirmDeleteButton =
+    document.getElementById("confirm-delete-button");
 
 
 /* Add task */
@@ -31,18 +85,22 @@ addTaskButton.addEventListener("click", addTask);
 
 function addTask() {
 
-    const title = taskInput.value.trim();
+    const title =
+        taskInput.value.trim();
 
-    const date = taskDate.value;
+    const date =
+        taskDate.value;
 
-    const priority = taskPriority.value;
+    const priority =
+        taskPriority.value;
 
 
     if (title === "") {
 
-        alert("Please enter a task.");
+        taskInput.focus();
 
         return;
+
     }
 
 
@@ -73,6 +131,8 @@ function addTask() {
 
     renderTasks();
 
+    taskInput.focus();
+
 }
 
 
@@ -96,26 +156,30 @@ function renderTasks() {
     taskList.innerHTML = "";
 
 
-    const searchText = searchInput.value
-        .trim()
-        .toLowerCase();
+    const searchText =
+        searchInput.value
+            .trim()
+            .toLowerCase();
 
 
-    let filteredTasks = tasks.filter(function(task) {
+    const filteredTasks =
+        tasks.filter(function(task) {
 
-        const matchesSearch =
-            task.title.toLowerCase().includes(searchText);
-
-
-        const matchesFilter =
-            currentFilter === "all" ||
-            (currentFilter === "pending" && !task.completed) ||
-            (currentFilter === "completed" && task.completed);
+            const matchesSearch =
+                task.title
+                    .toLowerCase()
+                    .includes(searchText);
 
 
-        return matchesSearch && matchesFilter;
+            const matchesFilter =
+                currentFilter === "all" ||
+                (currentFilter === "pending" && !task.completed) ||
+                (currentFilter === "completed" && task.completed);
 
-    });
+
+            return matchesSearch && matchesFilter;
+
+        });
 
 
     if (filteredTasks.length === 0) {
@@ -145,9 +209,12 @@ function renderTasks() {
 
 function createTaskElement(task) {
 
-    const taskItem = document.createElement("article");
+    const taskItem =
+        document.createElement("article");
 
-    taskItem.className = "task-item";
+
+    taskItem.className =
+        "task-item";
 
 
     if (task.completed) {
@@ -157,9 +224,10 @@ function createTaskElement(task) {
     }
 
 
-    const formattedDate = task.date
-        ? `Due: ${task.date}`
-        : "No due date";
+    const formattedDate =
+        task.date
+            ? `Due: ${task.date}`
+            : "No due date";
 
 
     taskItem.innerHTML = `
@@ -196,14 +264,21 @@ function createTaskElement(task) {
 
             <button
                 class="edit-button"
-                type="button">
+                type="button"
+                aria-label="Edit task">
+
                 ✏️
+
             </button>
+
 
             <button
                 class="delete-button"
-                type="button">
+                type="button"
+                aria-label="Delete task">
+
                 🗑️
+
             </button>
 
         </div>
@@ -232,14 +307,14 @@ function createTaskElement(task) {
 
     editButton.addEventListener("click", function() {
 
-        editTask(task.id);
+        openEditModal(task.id);
 
     });
 
 
     deleteButton.addEventListener("click", function() {
 
-        deleteTask(task.id);
+        openDeleteModal(task.id);
 
     });
 
@@ -257,7 +332,8 @@ function toggleTask(id) {
 
         if (task.id === id) {
 
-            task.completed = !task.completed;
+            task.completed =
+                !task.completed;
 
         }
 
@@ -271,42 +347,16 @@ function toggleTask(id) {
 }
 
 
-/* Delete task */
+/* Open edit modal */
 
-function deleteTask(id) {
+function openEditModal(id) {
 
-    const confirmed =
-        confirm("Are you sure you want to delete this task?");
+    const task =
+        tasks.find(function(task) {
 
+            return task.id === id;
 
-    if (!confirmed) {
-
-        return;
-
-    }
-
-
-    tasks = tasks.filter(function(task) {
-
-        return task.id !== id;
-
-    });
-
-
-    renderTasks();
-
-}
-
-
-/* Edit task */
-
-function editTask(id) {
-
-    const task = tasks.find(function(task) {
-
-        return task.id === id;
-
-    });
+        });
 
 
     if (!task) {
@@ -316,35 +366,212 @@ function editTask(id) {
     }
 
 
+    editingTaskId = id;
+
+
+    editTaskInput.value =
+        task.title;
+
+
+    editTaskDate.value =
+        task.date;
+
+
+    editTaskPriority.value =
+        task.priority;
+
+
+    editModal.classList.add("show");
+
+
+    setTimeout(function() {
+
+        editTaskInput.focus();
+
+    }, 50);
+
+}
+
+
+/* Save edited task */
+
+saveEditButton.addEventListener("click", function() {
+
+    saveEditedTask();
+
+});
+
+
+function saveEditedTask() {
+
+    const task =
+        tasks.find(function(task) {
+
+            return task.id === editingTaskId;
+
+        });
+
+
+    if (!task) {
+
+        closeEditModal();
+
+        return;
+
+    }
+
+
     const newTitle =
-        prompt("Edit task:", task.title);
+        editTaskInput.value.trim();
 
 
-    if (newTitle === null) {
+    if (newTitle === "") {
 
-        return;
-
-    }
-
-
-    const updatedTitle = newTitle.trim();
-
-
-    if (updatedTitle === "") {
-
-        alert("Task cannot be empty.");
+        editTaskInput.focus();
 
         return;
 
     }
 
 
-    task.title = updatedTitle;
+    task.title =
+        newTitle;
+
+
+    task.date =
+        editTaskDate.value;
+
+
+    task.priority =
+        editTaskPriority.value;
+
+
+    closeEditModal();
 
 
     renderTasks();
 
 }
+
+
+/* Close edit modal */
+
+function closeEditModal() {
+
+    editModal.classList.remove("show");
+
+    editingTaskId = null;
+
+}
+
+
+/* Edit modal buttons */
+
+cancelEditButton.addEventListener("click", function() {
+
+    closeEditModal();
+
+});
+
+
+closeEditButton.addEventListener("click", function() {
+
+    closeEditModal();
+
+});
+
+
+editModal.addEventListener("click", function(event) {
+
+    if (event.target === editModal) {
+
+        closeEditModal();
+
+    }
+
+});
+
+
+/* Save edit with Enter */
+
+editTaskInput.addEventListener("keydown", function(event) {
+
+    if (event.key === "Enter") {
+
+        saveEditedTask();
+
+    }
+
+});
+
+
+/* Open delete modal */
+
+function openDeleteModal(id) {
+
+    deletingTaskId = id;
+
+    deleteModal.classList.add("show");
+
+}
+
+
+/* Close delete modal */
+
+function closeDeleteModal() {
+
+    deleteModal.classList.remove("show");
+
+    deletingTaskId = null;
+
+}
+
+
+/* Confirm delete */
+
+confirmDeleteButton.addEventListener("click", function() {
+
+    if (deletingTaskId === null) {
+
+        return;
+
+    }
+
+
+    tasks =
+        tasks.filter(function(task) {
+
+            return task.id !== deletingTaskId;
+
+        });
+
+
+    closeDeleteModal();
+
+
+    renderTasks();
+
+});
+
+
+/* Cancel delete */
+
+cancelDeleteButton.addEventListener("click", function() {
+
+    closeDeleteModal();
+
+});
+
+
+deleteModal.addEventListener("click", function(event) {
+
+    if (event.target === deleteModal) {
+
+        closeDeleteModal();
+
+    }
+
+});
 
 
 /* Search */
@@ -387,7 +614,8 @@ filterButtons.forEach(function(button) {
 
 function updateCounter() {
 
-    const total = tasks.length;
+    const total =
+        tasks.length;
 
 
     const completed =
@@ -402,11 +630,29 @@ function updateCounter() {
         total - completed;
 
 
-    totalCount.textContent = total;
+    totalCount.textContent =
+        total;
 
-    pendingCount.textContent = pending;
 
-    completedCount.textContent = completed;
+    pendingCount.textContent =
+        pending;
+
+
+    completedCount.textContent =
+        completed;
+
+
+    if (total === 0) {
+
+        taskSummary.textContent =
+            "No tasks yet";
+
+    } else {
+
+        taskSummary.textContent =
+            `${pending} pending · ${completed} completed`;
+
+    }
 
 }
 
@@ -415,9 +661,13 @@ function updateCounter() {
 
 function escapeHTML(text) {
 
-    const div = document.createElement("div");
+    const div =
+        document.createElement("div");
 
-    div.textContent = text;
+
+    div.textContent =
+        text;
+
 
     return div.innerHTML;
 

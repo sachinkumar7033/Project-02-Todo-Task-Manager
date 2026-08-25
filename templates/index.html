@@ -9,175 +9,387 @@
 
     <title>To-Do Task Manager | Project #02</title>
 
-    <!-- CSS -->
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
 
 </head>
 
-
 <body>
 
     <main class="todo-container">
 
-
-        
-        <!-- HEADER -->
-        
-
         <header class="todo-header">
 
-            <h1>To-Do Task Manager</h1>
+            <div class="header-text">
 
-            <p>Project #02</p>
+                <span class="project-badge">PROJECT #02</span>
+
+                <h1>To-Do Task Manager</h1>
+
+                <p>Organize your tasks. Get things done.</p>
+
+            </div>
 
         </header>
 
 
-        
-        <!-- ADD TASK SECTION -->
-   
+        <section class="stats-section">
 
-        <section class="add-task-section">
+            <div class="stat-card">
 
-            <!-- Task Name -->
-            <input
-                type="text"
-                id="task-input"
-                placeholder="What do you need to do?"
-                autocomplete="off"
-            >
+                <span class="stat-icon">📋</span>
 
+                <div>
+                    <span class="stat-label">Total</span>
+                    <strong id="total-count">0</strong>
+                </div>
 
-            <!-- Task Date -->
-            <input
-                type="date"
-                id="task-date"
-            >
+            </div>
 
 
-            <!-- Task Priority -->
-            <select id="task-priority">
+            <div class="stat-card">
 
-                <option value="low">
-                    Low
-                </option>
+                <span class="stat-icon">⏳</span>
 
-                <option value="medium" selected>
-                    Medium
-                </option>
+                <div>
+                    <span class="stat-label">Pending</span>
+                    <strong id="pending-count">0</strong>
+                </div>
 
-                <option value="high">
-                    High
-                </option>
-
-            </select>
+            </div>
 
 
-            <!-- Add Button -->
-            <button
-                type="button"
-                id="add-task-button">
+            <div class="stat-card">
 
-                Add Task
+                <span class="stat-icon">✅</span>
 
-            </button>
+                <div>
+                    <span class="stat-label">Completed</span>
+                    <strong id="completed-count">0</strong>
+                </div>
+
+            </div>
 
         </section>
 
 
-        <!-- SEARCH SECTION -->
+        <section class="add-task-card">
 
-        <section class="search-section">
+            <div class="section-title">
 
-            <input
-                type="text"
-                id="search-input"
-                placeholder="Search tasks..."
-                autocomplete="off"
-            >
+                <div>
+                    <h2>Add New Task</h2>
+                    <p>Create a task and set its priority.</p>
+                </div>
+
+                <span class="plus-icon">+</span>
+
+            </div>
+
+
+            <div class="add-task-section">
+
+                <div class="input-group task-input-group">
+
+                    <label for="task-input">Task</label>
+
+                    <input
+                        type="text"
+                        id="task-input"
+                        placeholder="What do you need to do?"
+                        autocomplete="off">
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label for="task-date">Due Date</label>
+
+                    <input
+                        type="date"
+                        id="task-date">
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label for="task-priority">Priority</label>
+
+                    <select id="task-priority">
+
+                        <option value="low">Low</option>
+
+                        <option value="medium" selected>
+                            Medium
+                        </option>
+
+                        <option value="high">High</option>
+
+                    </select>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    id="add-task-button">
+
+                    <span>+</span>
+                    Add Task
+
+                </button>
+
+            </div>
 
         </section>
 
 
-        <!-- FILTER SECTION -->
+        <section class="toolbar">
 
-        <section class="filter-section">
+            <div class="search-box">
 
-            <button
-                type="button"
-                class="filter-button active"
-                data-filter="all">
+                <span>⌕</span>
 
-                All
+                <input
+                    type="text"
+                    id="search-input"
+                    placeholder="Search tasks..."
+                    autocomplete="off">
 
-            </button>
-
-
-            <button
-                type="button"
-                class="filter-button"
-                data-filter="pending">
-
-                Pending
-
-            </button>
+            </div>
 
 
-            <button
-                type="button"
-                class="filter-button"
-                data-filter="completed">
+            <div class="filter-section">
 
-                Completed
+                <button
+                    type="button"
+                    class="filter-button active"
+                    data-filter="all">
 
-            </button>
+                    All
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="filter-button"
+                    data-filter="pending">
+
+                    Pending
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="filter-button"
+                    data-filter="completed">
+
+                    Completed
+
+                </button>
+
+            </div>
 
         </section>
 
 
-        <!-- TASK LIST -->
+        <section class="task-section">
 
-        <section
-            class="task-list"
-            id="task-list">
+            <div class="task-section-header">
 
-            <!--
-                JavaScript will dynamically
-                create tasks here.
-            -->
+                <div>
+
+                    <h2>Your Tasks</h2>
+
+                    <p id="task-summary">
+                        No tasks yet
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <section
+                class="task-list"
+                id="task-list">
+
+            </section>
 
         </section>
 
 
-        <!-- TASK COUNTER -->
+        <footer class="app-footer">
 
-        <footer class="task-counter">
+            <span>To-Do Task Manager</span>
 
-            <span>
-                Total:
-                <strong id="total-count">0</strong>
-            </span>
-
-
-            <span>
-                Pending:
-                <strong id="pending-count">0</strong>
-            </span>
-
-
-            <span>
-                Completed:
-                <strong id="completed-count">0</strong>
-            </span>
+            <span>Project #02</span>
 
         </footer>
-
 
     </main>
 
 
-    <!-- JAVASCRIPT -->
+    <div class="modal-overlay" id="edit-modal">
+
+        <div class="modal">
+
+            <div class="modal-header">
+
+                <div>
+
+                    <span class="modal-badge">EDIT TASK</span>
+
+                    <h2>Edit Task</h2>
+
+                </div>
+
+                <button
+                    type="button"
+                    class="modal-close"
+                    id="close-edit-button">
+
+                    ×
+
+                </button>
+
+            </div>
+
+
+            <div class="modal-body">
+
+                <div class="input-group">
+
+                    <label for="edit-task-input">
+                        Task
+                    </label>
+
+                    <input
+                        type="text"
+                        id="edit-task-input"
+                        placeholder="Enter task name">
+
+                </div>
+
+
+                <div class="modal-row">
+
+                    <div class="input-group">
+
+                        <label for="edit-task-date">
+                            Due Date
+                        </label>
+
+                        <input
+                            type="date"
+                            id="edit-task-date">
+
+                    </div>
+
+
+                    <div class="input-group">
+
+                        <label for="edit-task-priority">
+                            Priority
+                        </label>
+
+                        <select id="edit-task-priority">
+
+                            <option value="low">
+                                Low
+                            </option>
+
+                            <option value="medium">
+                                Medium
+                            </option>
+
+                            <option value="high">
+                                High
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    class="cancel-button"
+                    id="cancel-edit-button">
+
+                    Cancel
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="save-button"
+                    id="save-edit-button">
+
+                    Save Changes
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="modal-overlay" id="delete-modal">
+
+        <div class="modal small-modal">
+
+            <div class="delete-icon">
+                🗑️
+            </div>
+
+            <h2>Delete Task?</h2>
+
+            <p>
+                This task will be permanently removed.
+            </p>
+
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    class="cancel-button"
+                    id="cancel-delete-button">
+
+                    Cancel
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="delete-confirm-button"
+                    id="confirm-delete-button">
+
+                    Delete
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
 
     <script
         src="{{ url_for('static', filename='js/script.js') }}">
