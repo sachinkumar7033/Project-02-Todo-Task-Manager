@@ -1,0 +1,10 @@
+basic req
+1.add task
+2.delete task
+3.mark task as completed edit task 
+4.edit task
+5.search task
+6.all/complete pending /filter
+7.task date
+8.priority -l/m/h
+save task in database
