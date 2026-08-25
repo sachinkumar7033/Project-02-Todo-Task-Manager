@@ -7,4 +7,8 @@ basic req
 6.all/complete pending /filter
 7.task date
 8.priority -l/m/h
-save task in database
+9.save task in database
+10.deploy live
+11.empty task validation
+12.responsive design
+14.after referesh load automatically
