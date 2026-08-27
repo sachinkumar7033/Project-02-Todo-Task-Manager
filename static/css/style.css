@@ -65,7 +65,7 @@ button {
 .stat-card {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 13px;
     padding: 18px;
     border: 1px solid #e5e7eb;
     border-radius: 15px;
