@@ -73,6 +73,19 @@ button {
     box-shadow: 0 5px 18px rgba(20, 30, 50, 0.05);
 }
 
+.stat-card {
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    border-color: #00d9ff;
+    box-shadow:
+        0 0 8px #00d9ff,
+        0 0 20px rgba(0, 217, 255, 0.5),
+        0 0 35px rgba(0, 217, 255, 0.25);
+}
+
 .stat-icon {
     display: flex;
     align-items: center;
