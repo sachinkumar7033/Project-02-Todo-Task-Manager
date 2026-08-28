@@ -68,7 +68,7 @@ button {
     gap: 13px;
     padding: 18px;
     border: 1px solid #e5e7eb;
-    border-radius: 15px;
+    border-radius: 16px;
     background: white;
     box-shadow: 0 5px 18px rgba(20, 30, 50, 0.05);
 }
