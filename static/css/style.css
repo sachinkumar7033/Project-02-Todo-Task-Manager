@@ -108,7 +108,7 @@ button {
 
 .section-title {
     display: flex;
-    align-items:;
+    align-items: center;
     justify-content: space-between;
     margin-bottom: 18px;
 }
