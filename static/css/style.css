@@ -82,14 +82,14 @@ button {
     width: 45px;
     height: 42px;
     border-radius: 12px;
-    background:;
+    background: #f1f5f9;
     font-size: 19px;
 }
 
 .stat-card strong {
     display: block;
     margin-top: 3px;
-    font-size: 29px;
+    font-size: 30px;
 }
 
 .stat-label {
